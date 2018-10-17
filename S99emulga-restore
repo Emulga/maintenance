@@ -51,7 +51,7 @@ rm /tmp/emulga-version.html
 	if diff /tmp/emulga-version.txt /etc/emulga-version >/dev/null 2>&1
 	then
 	# Version numbers match so we are good
-	echo "Release matches current do not patch."
+	echo "Current install matches release - do not patch."
 	UPDATE=0
 	else
 	UPDATE=1
