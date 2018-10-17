@@ -24,8 +24,8 @@ case "$1" in
 start)
 ### SIGNATURE FILES NEED TO BE FETCHED ON BOOT ###
 # Github Repo for offsite right now
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/checksum.sha -O /tmp/sumsums.txt
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/restoresum.sha -O /tmp/restore-sum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/checksum.sha -O /tmp/sumsums.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/restoresum.sha -O /tmp/restore-sum.txt
 # Official Emugla digital signature file (Should not be offsite)
 wget -q https://emul.ga/recalbox/$EMULGAV/checksums/ -O /tmp/cursum.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
@@ -56,7 +56,7 @@ fi
 
 if [ UPDATE=1 ]; then
 # Digital Signature file for latest patches should be kept offsite to verify current patch sum
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/patchsum.sha -O /tmp/patchsum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.txt
 # Official Patch Signature file to check from patch above
 wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
 tr "\n" "|" < epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
