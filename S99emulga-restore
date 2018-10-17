@@ -13,10 +13,11 @@
 UPDATE=0
 EMULGAV="`cat /etc/emulga-version`"
 
-if [ EMUGLAV = '']; then
+if [[ -z $EMUGLAV ]]; then
 # This is the only line that should ever be edited in the future and represents the version of the Image being distributed
 EMULGAV="silver-V1.0U"
 else
+exit 0
 # Version has been set so on we go
 fi
 
