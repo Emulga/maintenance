@@ -103,7 +103,7 @@ echo "Digital Signature of Digital Signatures verified"
 		cp /tmp/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
 		#
 		# Do we want to clobber out all splash screens?
-		# rm -f /recalbox/system/resources/splash/*
+		rm -f /recalbox/system/resources/splash/*
 		#
 		unzip -o /tmp/splash.zip -d /recalbox/system/resources/
 		rm /tmp/es_systems.cfg
