@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # emulga-restore init script
-# version 1.0f
+# version 1.0g
 # written by Nightshade
 # GPLv2 License
 #
@@ -17,16 +17,13 @@ if [ "$GW" = "" ]; then
     exit 1
 fi
 
-# Time to set some variables
+# Set variables
 UPDATE=0
-EMULGAV="`cat /etc/emulga-version`"
-
-if [[ -z $EMUGLAV ]]; then
-# This is the only line that should ever be edited in the future and represents the version of the Image being distributed
+if [ ! -f /etc/emulga-version ]; then
+# This is the only line that should be updated per release
 EMULGAV="silver-V1.0U"
 else
-exit 0
-# Version has been set so on we go
+EMULGAV="`cat /etc/emulga-version`"
 fi
 
 case "$1" in
