@@ -24,8 +24,8 @@ case "$1" in
 start)
 ### SIGNATURE FILES NEED TO BE FETCHED ON BOOT ###
 # Github Repo for offsite right now
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-checksum.sha -O /tmp/sumsums.txt
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-restoresum.sha -O /tmp/restore-sum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/checksum.sha -O /tmp/sumsums.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/restoresum.sha -O /tmp/restore-sum.txt
 # Official Emugla digital signature file (Should not be offsite)
 wget -q https://emul.ga/recalbox/$EMULGAV/checksums/ -O /tmp/cursum.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
@@ -56,13 +56,13 @@ fi
 
 if [ UPDATE=1 ]; then
 # Digital Signature file for latest patches should be kept offsite to verify current patch sum
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-patchsum.sha -O /tmp/patchsum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/patchsum.sha -O /tmp/patchsum.txt
 # Official Patch Signature file to check from patch above
 wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
 tr "\n" "|" < epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
 	if sha256sum -sc /tmp/patchsum.txt; then
 	echo "Digital Signature on Patch Signature - verified"
-	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
+	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
 		if sha256sum -sc /tmp/epatchsum.txt; then
 			# Emulga Patch checks out so off we go
 			echo "Digital Signature on Patch Succeeded - updating now"
@@ -94,8 +94,8 @@ echo "Digital Signature of Digital Signatures verified"
 	else
 # Files failed checking so let us restore them for the user
 	echo "Restoring Emulga Base Files"
-	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-es_systems.cfg -O /tmp/es_systems.cfg
-	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV-splash.zip -O /tmp/splash.zip
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/es_systems.cfg -O /tmp/es_systems.cfg
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/splash.zip -O /tmp/splash.zip
 # Oh guess what we have to check these files as well to make sure they are not compromised as well
 		if sha256sum -sc /tmp/restore-sum.txt; then
 # Now that all sanity checks have passed we can actually restore now
