@@ -94,8 +94,8 @@ echo "Digital Signature of Digital Signatures verified"
 	else
 # Files failed checking so let us restore them for the user
 	echo "Restoring Emulga Base Files"
-	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/es_systems.cfg -O /tmp/es_systems.cfg
-	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/splash.zip -O /tmp/splash.zip
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/es_systems.cfg -O /tmp/es_systems.cfg
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/splash.zip -O /tmp/splash.zip
 # Oh guess what we have to check these files as well to make sure they are not compromised as well
 		if sha256sum -sc /tmp/restore-sum.txt; then
 # Now that all sanity checks have passed we can actually restore now
