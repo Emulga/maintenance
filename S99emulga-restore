@@ -44,11 +44,11 @@ tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<c
 rm /tmp/emugla-version.html
 else
 # Version file exists but we need to compare to what current version is
-wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emugla-version.html
+wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emulga-version.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
-rm /tmp/emugla-version.html
-	if cmp /tmp/emulga-version.txt /etc/emgula-version >/dev/null 2>&1
+tr "\n" "|" < /tmp/emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emulga-version.txt
+rm /tmp/emulga-version.html
+	if diff /tmp/emulga-version.txt /etc/emulga-version >/dev/null 2>&1
 	then
 	# Version numbers match so we are good
 	echo "Release matches current do not patch."
@@ -58,7 +58,7 @@ rm /tmp/emugla-version.html
 	fi
 fi
 
-if [ UPDATE=1 ]; then
+if [ UPDATE = "1" ]; then
 # Digital Signature file for latest patches should be kept offsite to verify current patch sum
 wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.txt
 # Official Patch Signature file to check from patch above
