@@ -9,6 +9,14 @@
 # changes we may implement, it is also coded that other maintainers can base
 # off of it.
 #
+
+# Check for network connectivity and if it fails exit gracefully
+GW=`/sbin/ip route | awk '/default/ { print $3 }'`
+if [ "$GW" = "" ]; then
+    echo "No network connection detected - exiting restore";
+    exit 1
+fi
+
 # Time to set some variables
 UPDATE=0
 EMULGAV="`cat /etc/emulga-version`"
