@@ -63,7 +63,7 @@ wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
 tr "\n" "|" < /tmp/epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
 	if sha256sum -sc /tmp/patchsum.txt; then
 	echo "Digital Signature on Patch Signature - verified"
-	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
+	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
 		if sha256sum -sc /tmp/epatchsum.txt; then
 			# Emulga Patch checks out so off we go
 			echo "Digital Signature on Patch Succeeded - updating now"
