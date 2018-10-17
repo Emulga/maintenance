@@ -30,7 +30,7 @@ wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/sig
 # Official Emugla digital signature file (Should not be offsite)
 wget -q https://emul.ga/recalbox/$EMULGAV/checksums/ -O /tmp/cursum.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < cursum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/shasums.txt
+tr "\n" "|" < /tmp/cursum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/shasums.txt
 ### END SIGNATURE FILE FETCH ###
 
 # Official Emulga patches check
@@ -39,12 +39,12 @@ if [ ! -f /etc/emulga-version ]; then
 UPDATE=1
 wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emugla-version.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
+tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
 else
 # Version file exists but we need to compare to what current version is
 wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emugla-version.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
+tr "\n" "|" < /tmp/emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
 	if cmp /tmp/emulga-version.txt /etc/emgula-version >/dev/null 2>&1
 	then
 	# Version numbers match so we are good
@@ -60,7 +60,7 @@ if [ UPDATE=1 ]; then
 wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.txt
 # Official Patch Signature file to check from patch above
 wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
-tr "\n" "|" < epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
+tr "\n" "|" < /tmp/epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
 	if sha256sum -sc /tmp/patchsum.txt; then
 	echo "Digital Signature on Patch Signature - verified"
 	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
