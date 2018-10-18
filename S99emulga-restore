@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # emulga-restore init script
-# version 1.0g
+# version 1.0h
 # written by Nightshade
 # GPLv2 License
 #
@@ -30,12 +30,12 @@ case "$1" in
 start)
 ### SIGNATURE FILES NEED TO BE FETCHED ON BOOT ###
 # Github Repo for offsite right now
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/checksum.sha -O /tmp/sumsums.txt
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/restoresum.sha -O /tmp/restore-sum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/checksum.sha -O /tmp/checksum.sha
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/restoresum.sha -O /tmp/restoresum.sha
 # Official Emugla digital signature file (Should not be offsite)
 wget -q https://emul.ga/recalbox/$EMULGAV/checksums/ -O /tmp/cursum.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < /tmp/cursum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/shasums.txt
+tr "\n" "|" < /tmp/cursum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/shasums.sha
 rm /tmp/cursum.html
 ### END SIGNATURE FILE FETCH ###
 
@@ -45,15 +45,15 @@ if [ ! -f /etc/emulga-version ]; then
 UPDATE=1
 wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emugla-version.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version.txt
+tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version
 rm /tmp/emugla-version.html
 else
 # Version file exists but we need to compare to what current version is
 wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emulga-version.html
 # Magical WordPress processing put the stuff in html code blocks and this will find what we need.
-tr "\n" "|" < /tmp/emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emulga-version.txt
+tr "\n" "|" < /tmp/emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emulga-version
 rm /tmp/emulga-version.html
-	if diff /tmp/emulga-version.txt /etc/emulga-version >/dev/null 2>&1
+	if diff /tmp/emulga-version /etc/emulga-version >/dev/null 2>&1
 	then
 	# Version numbers match so we are good
 	echo "Current install matches release - do not patch."
@@ -65,15 +65,15 @@ fi
 
 if [ $UPDATE -eq "1" ]; then
 # Digital Signature file for latest patches should be kept offsite to verify current patch sum
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.txt
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.sha
 # Official Patch Signature file to check from patch above
 wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
-tr "\n" "|" < /tmp/epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.txt
+tr "\n" "|" < /tmp/epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.sha
 rm /tmp/epatchsum.html
-	if sha256sum -sc /tmp/patchsum.txt; then
+	if sha256sum -sc /tmp/patchsum.sha; then
 	echo "Digital Signature on Patch Signature - verified"
 	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
-		if sha256sum -sc /tmp/epatchsum.txt; then
+		if sha256sum -sc /tmp/epatchsum.sha; then
 			# Emulga Patch checks out so off we go
 			echo "Digital Signature on Patch Succeeded - updating now"
 			mount -o remount,rw /
@@ -94,10 +94,10 @@ fi
 
 # Here is where the magic is going to happen
 # First we check the checksums to make sure Emugla checksums are valid
-if sha256sum -sc /tmp/sumsums.txt; then
+if sha256sum -sc /tmp/checksum.sha; then
 echo "Digital Signature of Digital Signatures verified"
 # Pass of to checking the actual checksums now
-	if sha256sum -sc /tmp/shasums.txt; then
+	if sha256sum -sc /tmp/shasums.sha; then
 	echo "Digital Signatures verified"
 	exit 0
 # All files are as they should be so we exit above
@@ -107,7 +107,7 @@ echo "Digital Signature of Digital Signatures verified"
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/es_systems.cfg -O /tmp/es_systems.cfg
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/splash.zip -O /tmp/splash.zip
 # Oh guess what we have to check these files as well to make sure they are not compromised as well
-		if sha256sum -sc /tmp/restore-sum.txt; then
+		if sha256sum -sc /tmp/restoresum.sha; then
 # Now that all sanity checks have passed we can actually restore now
 		mount -o remount,rw /
 		cp /tmp/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
