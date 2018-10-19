@@ -1,0 +1,1 @@
+# In this directory you find sha256 checksums to verify files
