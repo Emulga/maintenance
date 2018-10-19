@@ -104,28 +104,20 @@ echo "Digital Signature of Digital Signatures verified"
 	else
 # Files failed checking so let us restore them for the user
 	echo "Restoring Emulga Base Files"
-	if cat /tmp/shasums.sha | head -n 1 | sha256sum -sc; then
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/es_systems.cfg -O /tmp/es_systems.cfg
-	fi
-	if cat shasums.sha | tail -n 5 | sha256sum -sc; then
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/splash.zip -O /tmp/splash.zip
-	fi
 # Oh guess what we have to check these files as well to make sure they are not compromised as well
 		if sha256sum -sc /tmp/restoresum.sha; then
 # Now that all sanity checks have passed we can actually restore now
 		mount -o remount,rw /
-		if [ -f /tmp/es_systems.cfg ]; then
 		cp /tmp/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
 		rm /tmp/es_systems.cfg
-		fi
 		#
 		# Do we want to clobber out all splash screens?
-		if [ -f /tmp/splash.zip ]; then
 		rm -f /recalbox/system/resources/splash/*
 		#
 		unzip -o /tmp/splash.zip -d /recalbox/system/resources/
 		rm /tmp/splash.zip
-		fi
 		mount -o remount,ro /
 		shutdown -r now
 	else
