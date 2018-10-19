@@ -1,2 +1,6 @@
 #!/bin/sh
+#
+# Credit to RetroPie for including resize2fs in their releases
+# https://retropie.org.uk/
+#
 LD_LIBRARY_PATH=/usr/resize /usr/resize/resize2fs $*
