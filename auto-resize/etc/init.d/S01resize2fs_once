@@ -11,7 +11,9 @@
 case "$1" in
   start)
     /usr/sbin/resize2fs /dev/mmcblk0p3
+    mount -o remount,rw /
     rm /etc/init.d/S01resize2fs_once
+    mount -o remount,ro /
     shutdown -r now
     ;;
   *)
