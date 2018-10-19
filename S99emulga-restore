@@ -9,6 +9,15 @@
 # off of it.
 #
 
+# Set variables
+UPDATE=0
+if [ ! -f /etc/emulga-version ]; then
+# This is the only line that should be updated per release
+EMULGAV="silver-V1.0U"
+else
+EMULGAV="`cat /etc/emulga-version`"
+fi
+
 # Check for network connectivity and if it fails exit gracefully
 GW=`/sbin/ip route | awk '/default/ { print $3 }'`
 if [ "$GW" = "" ]; then
@@ -41,15 +50,6 @@ then
 		echo "Digital Signature on restore script failed - abort"
 		exit 1
 	fi
-fi
-
-# Set variables
-UPDATE=0
-if [ ! -f /etc/emulga-version ]; then
-# This is the only line that should be updated per release
-EMULGAV="silver-V1.0U"
-else
-EMULGAV="`cat /etc/emulga-version`"
 fi
 
 case "$1" in
