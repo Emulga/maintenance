@@ -104,10 +104,10 @@ echo "Digital Signature of Digital Signatures verified"
 	else
 # Files failed checking so let us restore them for the user
 	echo "Restoring Emulga Base Files"
-	if cat /tmp/shasums.sha | head -n 1 | sha256sum -c; then
+	if cat /tmp/shasums.sha | head -n 1 | sha256sum -sc; then
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/es_systems.cfg -O /tmp/es_systems.cfg
 	fi
-	if cat shasums.sha | tail -n 5 | sha256sum -c; then
+	if cat shasums.sha | tail -n 5 | sha256sum -sc; then
 	wget https://raw.githubusercontent.com/Emulga/maintenance/master/$EMULGAV/files/splash.zip -O /tmp/splash.zip
 	fi
 # Oh guess what we have to check these files as well to make sure they are not compromised as well
