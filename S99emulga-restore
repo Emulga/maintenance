@@ -1,9 +1,8 @@
 #!/bin/sh
 #
 # emulga-restore init script
-# version 1.0h
+# version 1.0i
 # written by Nightshade
-# GPLv2 License
 #
 # This script will maintain an Emulga install and keep it up to date with any
 # changes we may implement, it is also coded that other maintainers can base
