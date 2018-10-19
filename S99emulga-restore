@@ -16,6 +16,28 @@ if [ "$GW" = "" ]; then
     exit 1
 fi
 
+# Make sure this script is up to date.
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/S99emulga-restore -O /tmp/S99emulga-restore
+if diff /tmp/S99emulga-restore /etc/init.d/S99emulga-restore >/dev/null 2>&1
+then
+	# Version numbers match so we are good
+	echo "Current restore matches master - do not update."
+	else
+	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/S99emulga-restore.sha -O /tmp/S99emulga-restore.sha
+	if sha256sum -sc /tmp/S99emulga-restore.sha; then
+		echo "Digital Signature on restore script checks out - update now"
+		mount -o remount,rw /
+		cp /tmp/S99emulga-restore /etc/init.d/S99emulga-restore
+		chmod a+rx /etc/init.d/S99emulga-restore
+		mount -o remount,ro /
+		rm /tmp/S99emulga-restore
+		# We abort and we'll run this script on next boot.
+		exit 1
+	else
+		echo "Digital Signature on restore script failed - abort"
+		exit 1
+fi
+
 # Set variables
 UPDATE=0
 if [ ! -f /etc/emulga-version ]; then
