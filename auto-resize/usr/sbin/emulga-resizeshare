@@ -2,6 +2,7 @@
 # Set needed variable (start cylinder for partition)
 PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 # Stop everything that is using the share mount
+/bin/echo "Stopping all Processes that use the Share partition..."
 /etc/init.d/S02splash stop
 /etc/init.d/S25lircd stop
 /etc/init.d/S31emulationstation stop
@@ -12,8 +13,10 @@ PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 # Unmount share to be safe
 /bin/umount /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
+/bin/echo "Checking Share Parition for errors please wait..."
 /usr/sbin/fsck /dev/mmcblk0p3 -yf
 # Reparition the share to the new size
+/bin/echo "Changing Share Partition size now..."
 /sbin/fdisk /dev/mmcblk0 <<EOF
 p
 d
@@ -27,10 +30,15 @@ p
 w
 EOF
 # Reload the partition map in kernel space
+/bin/echo "Refreshing Partition information..."
 /usr/sbin/partprobe
 # Resize the partition to the new size
+/bin/echo "Resizing Share Parition..."
+/bin/echo "This process is going to take quite awhile, please be patient"
 /usr/sbin/resize2fs /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
+/bin/echo "Checking Share Parition for errors please wait..."
 /usr/sbin/fsck /dev/mmcblk0p3 -yf
 # We are done reboot to apply
+/bin/echo "Restarting System to Apply change..."
 /sbin/shutdown -r now
