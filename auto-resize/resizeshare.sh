@@ -1,6 +1,6 @@
 #!/bin/bash
 # Set needed variable (start cylinder for partition)
-PART_START=$(fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
+PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 # Stop everything that is using the share mount
 /etc/init.d/S02splash stop
 /etc/init.d/S25lircd stop
@@ -10,11 +10,11 @@ PART_START=$(fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 /etc/init.d/S92virtualgamepads stop
 /etc/init.d/S94manager stop
 # Unmount share to be safe
-umount /dev/mmcblk0p3
+/bin/umount /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
-fsck /dev/mmcblk0p3 -yf
+/usr/sbin/fsck /dev/mmcblk0p3 -yf
 # Reparition the share to the new size
-fdisk /dev/mmcblk0 <<EOF
+/sbin/fdisk /dev/mmcblk0 <<EOF
 p
 d
 $PART_NUM
@@ -27,10 +27,10 @@ p
 w
 EOF
 # Reload the partition map in kernel space
-partprobe
+/usr/sbin/partprobe
 # Resize the partition to the new size
 /usr/sbin/resize2fs /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
-fsck /dev/mmcblk0p3 -yf
+/usr/sbin/fsck /dev/mmcblk0p3 -yf
 # We are done reboot to apply
-shutdown -r now
+/sbin/shutdown -r now
