@@ -20,6 +20,7 @@ $PART_START
 p
 w
 EOF
+fsck /dev/mmcblk0p3 -yf
 mount -o remount,rw /
 cat <<\EOF > /etc/init.d/resize2fs_once &&
 #!/bin/sh
