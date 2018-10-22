@@ -6,8 +6,18 @@
 #
 case "$1" in
   start)
+/etc/init.d/S02splash stop
+/etc/init.d/S25lircd stop
+/etc/init.d/S31emulationstation stop
+/etc/init.d/S32bluetooth stop
+/etc/init.d/S91smb stop
+/etc/init.d/S92virtualgamepads stop
+/etc/init.d/S94manager stop
+umount /dev/mmcblk0p3
+fsck /dev/mmcblk0p3 -yf
 PART_NUM=3
-PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^${PART_NUM}" | cut -f 2 -d:)
+#PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^${PART_NUM}" | cut -f 2 -d:)
+PART_START=$(fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 fdisk /dev/mmcblk0 <<EOF
 p
 d
@@ -20,30 +30,12 @@ $PART_START
 p
 w
 EOF
-/etc/init.d/S02splash stop
-/etc/init.d/S31emulationstation stop
-/etc/init.d/S32bluetooth stop
-/etc/init.d/S92virtualgamepads stop
-umount /dev/mmcblk0p3
+fsck /dev/mmcblk0p3 -yf
+partprobe
+/usr/sbin/resize2fs /dev/mmcblk0p3
 fsck /dev/mmcblk0p3 -yf
 mount -o remount,rw /
-cat <<\EOF > /etc/init.d/resize2fs_once &&
-#!/bin/sh
-case "$1" in
-  start)
-/usr/sbin/resize2fs /dev/mmcblk0p3
-mount -o remount,rw /
 rm /etc/init.d/S01resize2fs_once
-mount -o remount,ro /
-shutdown -r now
-;;
-  *)
-    echo "Usage: $0 start" >&2
-    exit 3
-    ;;
-esac
-EOF
-chmod +x /etc/init.d/resize2fs_once
 mount -o remount,ro /
 #shutdown -r now
 ;;
