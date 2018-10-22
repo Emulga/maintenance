@@ -6,13 +6,41 @@
 #
 case "$1" in
   start)
-    /usr/sbin/resize2fs /dev/mmcblk0p3
-    mount -o remount,rw /
-    rm /etc/init.d/S01resize2fs_once
-    mount -o remount,ro /
-    shutdown -r now
-    ;;
+PART_NUM=3
+PART_START=$(parted /dev/mmcblk0 -ms unit s p | grep "^${PART_NUM}" | cut -f 2 -d:)
+fdisk /dev/mmcblk0 <<EOF
+p
+d
+$PART_NUM
+n
+p
+$PART_NUM
+$PART_START
+p
+w
+EOF
+mount -o remount,rw /
+cat <<\EOF > /etc/init.d/resize2fs_once &&
+#!/bin/sh
+case "$1" in
+  start)
+/usr/sbin/resize2fs /dev/mmcblk0p3
+mount -o remount,rw /
+rm /etc/init.d/S01resize2fs_once
+mount -o remount,ro /
+shutdown -r now
+;;
   *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac
+EOF
+chmod +x /etc/init.d/resize2fs_once
+mount -o remount,ro /
+#shutdown -r now
+;;
+*)
     echo "Usage: $0 start" >&2
     exit 3
     ;;
