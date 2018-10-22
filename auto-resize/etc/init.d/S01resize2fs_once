@@ -20,6 +20,11 @@ $PART_START
 p
 w
 EOF
+/etc/init.d/S02splash stop
+/etc/init.d/S31emulationstation stop
+/etc/init.d/S32bluetooth stop
+/etc/init.d/S92virtualgamepads stop
+umount /dev/mmcblk0p3
 fsck /dev/mmcblk0p3 -yf
 mount -o remount,rw /
 cat <<\EOF > /etc/init.d/resize2fs_once &&
