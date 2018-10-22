@@ -17,7 +17,7 @@ PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 /sbin/fdisk /dev/mmcblk0 <<EOF
 p
 d
-$PART_NUM
+3
 n
 p
 3
