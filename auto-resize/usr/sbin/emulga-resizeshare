@@ -1,4 +1,14 @@
 #!/bin/bash
+/usr/bin/clear
+# Make sure we run from root of SD and not on share
+BASEDIR=`pwd`
+if [ ! $BASEDIR = "/" ]; then
+echo "Please type"
+echo
+echo "cd /"
+echo
+echo "Before running this command."
+else
 # Set needed variable (start cylinder for partition)
 PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 # Stop everything that is using the share mount
@@ -10,10 +20,10 @@ PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 /etc/init.d/S91smb stop
 /etc/init.d/S92virtualgamepads stop
 /etc/init.d/S94manager stop
-# Wait 10 seconds
-/bin/echo "We have to wait till all programs have fully quit... 30 seconds"
-/bin/sleep 30
 # Unmount share to be safe
+echo "Waiting for processes to quit"
+sleep 10
+/usr/bin/fuser -k /dev/mmcblk0p3
 /bin/umount /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
 /bin/echo "Checking Share Parition for errors please wait..."
@@ -45,3 +55,4 @@ EOF
 # We are done reboot to apply
 /bin/echo "Restarting System to Apply change..."
 /sbin/shutdown -r now
+fi
