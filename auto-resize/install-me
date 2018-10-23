@@ -1,4 +1,5 @@
 #!/bin/sh
+cd /recalbox/share/auto-resize
 /bin/echo "Installing SD Card Resizer..."
 /bin/mount -o remount,rw /
 /usr/bin/find . -type f -print0 | xargs -0 chmod a+rx
