@@ -19,4 +19,6 @@ SSH into recalbox and type the following to install the script (This is all on o
 
 cd /recalbox/share && wget https://github.com/Emulga/maintenance/raw/master/auto-resize/auto-resize.zip && unzip auto-resize.zip && chmod a+x auto-resize/install-me && ./auto-resize/install-me
 
-You should see a confirmation of installation, now you can run the emulga-resizeshare command and it will take care of the rest.
+You should see a confirmation of installation, now you can run the "emulga-resizeshare" command and it will take care of the rest.
+
+## You can also feel free to delete the auto-resize.zip and auto-resize folders in share after running install-me.
