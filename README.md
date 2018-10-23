@@ -7,7 +7,7 @@ This repo is really for internal work and will not be entirely useful for end us
 
 ------------------------------------------------------------------------------------
 
-That being said if you're on emulga-silver-V1.0U running the following command in SSH might be helpful
+*That being said if you're on emulga-silver-V1.0U running the following command in SSH might be helpful*
 
 **(This is all one line so be careful with that copy & paste!):**
 
