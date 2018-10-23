@@ -10,3 +10,13 @@ All of /usr/resize contents are directly from RetroPie
 /usr/sbin/resize2fs is a shell script that just uses LD_LIBRARY_PATH to let us use RetroPie's resize2fs files.
 
 Once again thanks RetroPie for having a full fledged e2fsprogs we could use for this.
+
+End users (you reading this) can install this resize script by copying all of this folder to your network share \recalbox\share
+
+SSH into recalbox and type the following commands to install:
+
+chmod a+rx auto-resize/install-me
+
+./auto-resize/install-me
+
+You should see a confirmation of installation, now you can run the emulga-resizeshare command and it will take care of the rest.
