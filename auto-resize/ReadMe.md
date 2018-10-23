@@ -11,6 +11,8 @@ All of /usr/resize contents are directly from RetroPie
 
 Once again thanks RetroPie for having a full fledged e2fsprogs we could use for this.
 
+--------------------------------------------------------------------------------------------------------------------------------
+
 End users (you reading this) can install this resize script by copying all of this folder to your network share \recalbox\share
 
 SSH into recalbox and type the following commands to install:
