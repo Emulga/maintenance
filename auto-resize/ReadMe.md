@@ -13,7 +13,9 @@ Once again thanks RetroPie for having a full fledged e2fsprogs we could use for 
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-End users (you reading this) can install this resize script by copying all of this folder to your network share \recalbox\share
+# End users (you reading this)
+
+Can install this resize script by copying all of this folder to your network share \recalbox\share
 
 SSH into recalbox and type the following commands to install:
 
