@@ -19,8 +19,6 @@ Can install this resize script by downloading the zip of this and putting it's c
 
 SSH into recalbox and type the following commands to install:
 
-chmod a+rx auto-resize/install-me
-
-./auto-resize/install-me
+unzip auto-resize.zip && chmod a+x auto-resize/install-me && ./auto-resize/install-me
 
 You should see a confirmation of installation, now you can run the emulga-resizeshare command and it will take care of the rest.
