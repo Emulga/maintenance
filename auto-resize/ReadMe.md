@@ -13,7 +13,7 @@ Once again thanks RetroPie for having a full fledged e2fsprogs we could use for 
 
 --------------------------------------------------------------------------------------------------------------------------------
 
-# End users (you reading this)
+## End users (you reading this)
 
 SSH into recalbox and type the following to install the script (This is all on one line):
 
@@ -21,4 +21,4 @@ cd /recalbox/share && wget https://github.com/Emulga/maintenance/raw/master/auto
 
 You should see a confirmation of installation, now you can run the "emulga-resizeshare" command and it will take care of the rest.
 
-## You can also feel free to delete the auto-resize.zip and auto-resize folders in share after running install-me.
+### You can also feel free to delete the auto-resize.zip and auto-resize folders in share after running install-me.
