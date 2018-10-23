@@ -17,6 +17,6 @@ Once again thanks RetroPie for having a full fledged e2fsprogs we could use for 
 
 SSH into recalbox and type the following to install the script (This is all on one line so be careful with the copy and paste!):
 
-cd /recalbox/share && wget https://github.com/Emulga/maintenance/raw/master/auto-resize/auto-resize.zip && unzip auto-resize.zip && chmod a+x auto-resize/install-me && ./auto-resize/install-me && rm -rf auto-resize.zip auto-resize
+cd /recalbox/share && wget https://github.com/Emulga/maintenance/raw/master/auto-resize/auto-resize.zip && unzip auto-resize.zip && chmod a+x auto-resize/install-me && ./auto-resize/install-me && rm -rf auto-resize*
 
 You should see a confirmation of installation, now you can run the "emulga-resizeshare" command and it will take care of the rest.
