@@ -10,6 +10,9 @@ PART_START=$(/sbin/fdisk -l /dev/mmcblk0 | grep 0p3 | cut -c 26-30)
 /etc/init.d/S91smb stop
 /etc/init.d/S92virtualgamepads stop
 /etc/init.d/S94manager stop
+# Wait 10 seconds
+/bin/echo "We have to wait till all programs have fully quit... 30 seconds"
+/bin/sleep 30
 # Unmount share to be safe
 /bin/umount /dev/mmcblk0p3
 # Force check share partition for errors and auto fix them
