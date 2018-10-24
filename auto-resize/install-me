@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /recalbox/share/
-wget --no-check-certificate https://github.com/Emulga/maintenance/raw/master/auto-resize/auto-resize.zip
+wget --no-check-certificate https://github.com/Emulga/maintenance/raw/master/auto-resize/auto-resize.zip -O /recalbox/share/auto-resize.zip
 /usr/bin/unzip auto-resize.zip
 cd /recalbox/share/auto-resize
 /bin/echo "Installing SD Card Resizer..."
