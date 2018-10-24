@@ -1,6 +1,9 @@
 #!/bin/bash
 /usr/bin/clear
-if [ -d "/recalbox/share/system/.emulationstation/themes/Emulga Box" ]; then
+if [ ! -d "/recalbox/share/system/.emulationstation/themes/Emulga Box" ]; then
+echo "This script is for Emulga Releases only!"
+exit 1
+fi
 # Make sure we run from root of SD and not on share
 BASEDIR=`pwd`
 if [ ! $BASEDIR = "/" ]; then
@@ -56,7 +59,4 @@ EOF
 # We are done reboot to apply
 /bin/echo "Restarting System to Apply change..."
 /sbin/shutdown -r now
-fi
-else
-echo "This script is for Emulga Releases only!"
 fi
