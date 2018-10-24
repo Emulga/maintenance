@@ -1,5 +1,5 @@
 # Emugla maintenance repo
-![Emugla Logo](https://github.com/Emulga/maintenance/raw/master/web-logo-ds.png)
+![Emugla Logo](https://github.com/Emulga/maintenance/raw/master/emulga-logo.png)
 
 [Link to Emulga's webpage, includes some FAQs and tutorials](https://emul.ga/)
 
