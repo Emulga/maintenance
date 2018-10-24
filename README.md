@@ -12,3 +12,5 @@ This repo is really for internal work and will not be entirely useful for end us
 _**(This is all one line so be careful with that copy & paste!):**_
 
 `cd /recalbox/share && wget https://github.com/Emulga/maintenance/raw/master/S99emulga-restore && chmod a+rx S99emulga-restore && mount -o remount,rw / && cp S99emulga-restore /etc/init.d && mount -o remount,ro / && rm S99emulga-restore && /etc/init.d/S99emulga-restore start`
+
+_Please be aware this will restore Emulga Splash screens and our custom es_systems.cfg_
