@@ -56,6 +56,6 @@ EOF
 # We are done reboot to apply
 /bin/echo "Restarting System to Apply change..."
 /sbin/shutdown -r now
-fi
 else
 echo "This script is for Emulga Releases only!"
+fi
