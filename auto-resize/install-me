@@ -8,7 +8,8 @@ cd /recalbox/share/auto-resize
 /usr/bin/find . -type f -print0 | xargs -0 chmod a+rx
 /bin/cp -rp usr/* /usr/
 /bin/mount -o remount,ro /
-/bin/rm auto-resize.zip
+/bin/rm /recalbox/share/auto-resize.zip
+/bin/rm -rf /recalbox/share/auto-resize/
 /bin/echo "Done!"
 /bin/echo ""
 /bin/echo "Please type the following to begin resizing your Share Partition"
