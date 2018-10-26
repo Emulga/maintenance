@@ -26,7 +26,7 @@ if [ "$GW" = "" ]; then
 fi
 
 # Make sure this script is up to date.
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/S99emulga-restore -O /tmp/S99emulga-restore
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/silver-V1.0U/S99emulga-restore -O /tmp/S99emulga-restore
 if diff /tmp/S99emulga-restore /etc/init.d/S99emulga-restore >/dev/null 2>&1
 then
 	# Version numbers match so we are good
