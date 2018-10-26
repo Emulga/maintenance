@@ -17,7 +17,7 @@ Once again thanks [RetroPie](https://retropie.org.uk/) for having a full fledged
 
 SSH into recalbox and type the following to install the script - (**This is all on one line so be careful with the copy and paste!**):
 
-`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/auto-resize/install-me" | bash`
+`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-resize/install-me" | bash`
 
 You should see a confirmation of installation, and what to type next to begin the resizing of the share partition.
 
