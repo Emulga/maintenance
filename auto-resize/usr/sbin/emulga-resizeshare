@@ -1,6 +1,6 @@
 #!/bin/bash
 /usr/bin/clear
-if [ ! -f "/etc/emulga-version"]; then
+if [ ! -f "/etc/emulga-version" ]; then
 	if [ ! -d "/recalbox/share/system/.emulationstation/themes/Emulga Box" ]; then
 	echo "This script is for Emulga Releases only!"
 	exit 1
