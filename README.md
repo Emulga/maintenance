@@ -1,4 +1,4 @@
-![Emugla Logo](https://i.postimg.cc/W1TmZMtB/github.png)
+![Emugla Logo](https://i.postimg.cc/KzM3wzR7/github.png)
 # Emugla maintenance repo
 
 [Link to Emulga's webpage, includes some FAQs and tutorials](https://emul.ga/)
