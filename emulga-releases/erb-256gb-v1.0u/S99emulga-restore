@@ -1,0 +1,169 @@
+#!/bin/sh
+#
+# emulga-restore init script
+# version 1.0j
+# written by Nightshade
+#
+# This script will maintain an Emulga install and keep it up to date with any
+# changes we may implement, it is also coded that other maintainers can base
+# off of it.
+#
+
+# Set variables
+UPDATE=0
+if [ ! -f /etc/emulga-version ]; then
+# This is the only line that should be updated per release
+EMULGAV="erb-256gb-v1.0u"
+else
+EMULGAV="`cat /etc/emulga-version`"
+fi
+
+# Check for network connectivity and if it fails exit gracefully
+GW=`/sbin/ip route | awk '/default/ { print $3 }'`
+if [ "$GW" = "" ]; then
+    echo "No network connection detected - exiting restore";
+    exit 1
+fi
+
+# Make sure this script is up to date.
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/S99emulga-restore -O /tmp/S99emulga-restore
+if diff /tmp/S99emulga-restore /etc/init.d/S99emulga-restore >/dev/null 2>&1
+then
+	# Version numbers match so we are good
+	echo "Current restore matches master - do not update."
+	else
+	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/S99emulga-restore.sha -O /tmp/S99emulga-restore.sha
+	wget -q https://emul.ga/recalbox/emulga-restore/ -O /tmp/S99emulga-restore.html
+	# Magical WordPress processing put the stuff in html code blocks and this will find what we need.
+	tr "\n" "|" < /tmp/S99emulga-restore.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/S99emulga-restore.sha
+	rm /tmp/S99emulga-restore.html
+	if sha256sum -sc /tmp/S99emulga-restore.sha; then
+		echo "Digital Signature on restore script checks out - update now"
+		mount -o remount,rw /
+		cp /tmp/S99emulga-restore /etc/init.d/S99emulga-restore
+		chmod a+rx /etc/init.d/S99emulga-restore
+		mount -o remount,ro /
+		rm /tmp/S99emulga-restore
+		# We abort and we'll run this script on next boot.
+		exit 1
+	else
+		echo "Digital Signature on restore script failed - abort"
+		exit 1
+	fi
+fi
+
+case "$1" in
+start)
+### SIGNATURE FILES NEED TO BE FETCHED ON BOOT ###
+# Github Repo for offsite right now
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/signatures/checksum.sha -O /tmp/checksum.sha
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/signatures/restoresum.sha -O /tmp/restoresum.sha
+# Official Emugla digital signature file (Should not be offsite)
+wget -q https://emul.ga/recalbox/$EMULGAV/checksums/ -O /tmp/cursum.html
+# Magical WordPress processing put the stuff in html code blocks and this will find what we need.
+tr "\n" "|" < /tmp/cursum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/shasums.sha
+rm /tmp/cursum.html
+### END SIGNATURE FILE FETCH ###
+
+# Official Emulga patches check
+if [ ! -f /etc/emulga-version ]; then
+# Version not set so we need to patch immediately which the patch will set the version for future runs.
+UPDATE=1
+wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emugla-version.html
+# Magical WordPress processing put the stuff in html code blocks and this will find what we need.
+tr "\n" "|" < /tmp/emugla-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emugla-version
+rm /tmp/emugla-version.html
+else
+# Version file exists but we need to compare to what current version is
+wget -q https://emul.ga/recalbox/$EMULGAV/version/ -O /tmp/emulga-version.html
+# Magical WordPress processing put the stuff in html code blocks and this will find what we need.
+tr "\n" "|" < /tmp/emulga-version.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/emulga-version
+rm /tmp/emulga-version.html
+	if diff /tmp/emulga-version /etc/emulga-version >/dev/null 2>&1
+	then
+	# Version numbers match so we are good
+	echo "Current install matches release - do not patch."
+	UPDATE=0
+	else
+	UPDATE=1
+	fi
+fi
+
+if [ $UPDATE -eq "1" ]; then
+# Digital Signature file for latest patches should be kept offsite to verify current patch sum
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/signatures/patchsum.sha -O /tmp/patchsum.sha
+# Official Patch Signature file to check from patch above
+wget -q https://emul.ga/recalbox/$EMULGAV/patch -O /tmp/epatchsum.html
+tr "\n" "|" < /tmp/epatchsum.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/epatchsum.sha
+rm /tmp/epatchsum.html
+	if sha256sum -sc /tmp/patchsum.sha; then
+	echo "Digital Signature on Patch Signature - verified"
+	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/files/latest-patch.tar.bz2 -O /tmp/latest-patch.tar.bz2
+		if sha256sum -sc /tmp/epatchsum.sha; then
+			# Emulga Patch checks out so off we go
+			echo "Digital Signature on Patch Succeeded - updating now"
+			mount -o remount,rw /
+			tar -jxf /tmp/latest-patch.tar.bz2 -C /
+			mount -o remount,ro /
+			shutdown -r now
+			exit 0
+		else
+			# Emulga Patch signature failed
+			echo "Digital Signature on Patch failed - abort"
+			exit 1
+		fi
+	else
+	echo "Digital Signature on Patch failed - abort"
+	exit 1
+	fi
+fi
+
+# Here is where the magic is going to happen
+# First we check the checksums to make sure Emugla checksums are valid
+if sha256sum -sc /tmp/checksum.sha; then
+echo "Digital Signature of Digital Signatures verified"
+# Pass of to checking the actual checksums now
+	if sha256sum -sc /tmp/shasums.sha; then
+	echo "Digital Signatures verified"
+	exit 0
+# All files are as they should be so we exit above
+	else
+# Files failed checking so let us restore them for the user
+	echo "Restoring Emulga Base Files"
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/files/es_systems.cfg -O /tmp/es_systems.cfg
+	wget https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/files/splash.zip -O /tmp/splash.zip
+# Oh guess what we have to check these files as well to make sure they are not compromised as well
+		if sha256sum -sc /tmp/restoresum.sha; then
+# Now that all sanity checks have passed we can actually restore now
+		mount -o remount,rw /
+		cp /tmp/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
+		rm /tmp/es_systems.cfg
+		#
+		# Do we want to clobber out all splash screens?
+		rm -f /recalbox/system/resources/splash/*
+		#
+		unzip -o /tmp/splash.zip -d /recalbox/system/resources/
+		rm /tmp/splash.zip
+		mount -o remount,ro /
+		shutdown -r now
+	else
+	echo "Digital Signature of Restore Files failed - Abort"
+	exit 1
+	fi
+fi
+	else
+	echo "Digital Signature of Digital Signature file failed - Abort"
+	exit 1
+fi
+;;
+stop)
+exit 0
+;;
+reload)
+exit 0
+;;
+*)
+echo "Usage: S99-emulga-restore {start}" >&2
+exit 1
+;;
+esac
