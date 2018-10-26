@@ -13,7 +13,7 @@
 UPDATE=0
 if [ ! -f /etc/emulga-version ]; then
 # This is the only line that should be updated per release
-EMULGAV="erb-256gb-v1.0u"
+EMULGAV="erb256gb-v1.0u"
 else
 EMULGAV="`cat /etc/emulga-version`"
 fi
