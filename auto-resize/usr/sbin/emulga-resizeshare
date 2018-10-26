@@ -7,7 +7,7 @@ if [ ! -f "/etc/emulga-version" ]; then
 	fi
 	echo "This script is for Emulga Releases only!"
 	exit 1
-fi
+else
 # Make sure we run from root of SD and not on share
 BASEDIR=`pwd`
 if [ ! $BASEDIR = "/" ]; then
@@ -63,4 +63,5 @@ EOF
 # We are done reboot to apply
 /bin/echo "Restarting System to Apply change..."
 /sbin/shutdown -r now
+fi
 fi
