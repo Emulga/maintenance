@@ -20,3 +20,5 @@ SSH into recalbox and type the following to install the script - (**This is all 
 `wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/auto-resize/install-me" | bash`
 
 You should see a confirmation of installation, and what to type next to begin the resizing of the share partition.
+
+_**Silver-v1.0U is the only release where this command will be done after install, future versions will have emulga-resize installed by default.**_
