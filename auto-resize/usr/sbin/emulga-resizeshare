@@ -5,6 +5,8 @@ if [ ! -f "/etc/emulga-version" ]; then
 	echo "This script is for Emulga Releases only!"
 	exit 1
 	fi
+	echo "This script is for Emulga Releases only!"
+	exit 1
 fi
 # Make sure we run from root of SD and not on share
 BASEDIR=`pwd`
