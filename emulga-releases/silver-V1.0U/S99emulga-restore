@@ -26,14 +26,13 @@ if [ "$GW" = "" ]; then
 fi
 
 # Make sure this script is up to date.
-wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/silver-V1.0U/S99emulga-restore -O /tmp/S99emulga-restore
+wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/$EMULGAV/S99emulga-restore -O /tmp/S99emulga-restore
 if diff /tmp/S99emulga-restore /etc/init.d/S99emulga-restore >/dev/null 2>&1
 then
 	# Version numbers match so we are good
 	echo "Current restore matches master - do not update."
 	else
-	wget -q https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/silver-V1.0U/signatures/S99emulga-restore.sha -O /tmp/S99emulga-restore.sha
-	wget -q https://emul.ga/recalbox/emulga-restore/ -O /tmp/S99emulga-restore.html
+	wget -q https://emul.ga/recalbox/$EMULGAV/emulga-restore/ -O /tmp/S99emulga-restore.html
 	# Magical WordPress processing put the stuff in html code blocks and this will find what we need.
 	tr "\n" "|" < /tmp/S99emulga-restore.html | grep -o '<code>.*</code>' | sed 's/\(<code>\|<\/code>\)//g;s/|/\n/g' | sed 's/\(<br\ \/>\|<\/br>\)//g;s/|/\n/g' | sed '/^$/d' > /tmp/S99emulga-checksum.sha
 	rm /tmp/S99emulga-restore.html
