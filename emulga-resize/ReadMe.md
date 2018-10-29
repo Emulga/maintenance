@@ -15,7 +15,9 @@ Once again thanks [RetroPie](https://retropie.org.uk/) for having a full fledged
 
 ## End users (you reading this)
 
-SSH into recalbox and type the following to install the script - (**This is all on one line so be careful with the copy and paste!**):
+SSH into recalbox and copy /paste the following to install
+
+(**This is all on one line so be careful with the copy and paste!**):
 
 `wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-resize/eresize-install.sh" | bash`
 
