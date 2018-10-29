@@ -10,4 +10,8 @@ SSH into recalbox and type the following to install the specific theme - (**This
 
 `wget -O - "https://github.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-nostalgia.sh" | bash`
 
+**Emulga Shaders / Overlays**
+
+`wget -O - "https://github.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-shaders.sh" | bash`
+
 You should see a confirmation of installation when the script completes.
