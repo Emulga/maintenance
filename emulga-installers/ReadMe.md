@@ -1,6 +1,8 @@
 # Emulga Installers
 
-SSH into recalbox and type the following to install the specific theme - (**This is all on one line so be careful with the copy and paste!**):
+SSH into recalbox and copy / paste one of the following to install.
+
+(**This is all on one line so be careful with the copy and paste!**):
 
 **Emulga Box Theme**
 
