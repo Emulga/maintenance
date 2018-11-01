@@ -9,3 +9,5 @@ _**(This is all one line so be careful with that copy & paste!):**_
 _Please be aware this will restore Emulga customizations to your image even if you update RecalBox_
 
 _**This is the only release where this command will be done after install, future versions will have this solution baked in.**_
+
+_Bit.ly url downloads https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/silver-V1.0U/silver-install.sh_
