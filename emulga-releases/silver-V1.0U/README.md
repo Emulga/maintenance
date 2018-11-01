@@ -4,7 +4,7 @@
 
 _**(This is all one line so be careful with that copy & paste!):**_
 
-`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-releases/silver-V1.0U/silver-install.sh" | bash`
+`wget -O - "https://bit.ly/2zp2H6a" | bash`
 
 _Please be aware this will restore Emulga customizations to your image even if you update RecalBox_
 
