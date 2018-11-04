@@ -34,7 +34,7 @@ done
 if grep -q "system.splash.length=-1" "/recalbox/share/system/recalbox.conf"; then
 /bin/echo "Splash length already adjusted..."
 else
-/bin/sed -i "s/system.splash.length=0/system.splash.length=-1/g" "/recalbox/share/system/recalbox.conf"
+/bin/sed -i "s/system.splash.length=0/system.splash.length=61/g" "/recalbox/share/system/recalbox.conf"
 /bin/echo "Done..."
 fi
 /bin/mount -o remount,ro /
