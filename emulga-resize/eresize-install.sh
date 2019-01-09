@@ -14,6 +14,6 @@ cd /recalbox/share/emulga-resize
 /bin/echo ""
 /bin/echo "Please type the following to begin resizing your Share Partition"
 /bin/echo ""
-/bin/echo "cd /"
+/bin/echo "cd /;emulga-resizeshare"
+/bin/echo "Press enter to confirm the command"
 /bin/echo ""
-/bin/echo "emulga-resizeshare"
