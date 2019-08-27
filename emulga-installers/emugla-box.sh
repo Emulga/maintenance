@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# Theme installer script 1.0
-# by Nightshade
+# Theme installer script 1.1
+# by Naitoshedo
 #
 # Change following line for theme repo name
 THEMENAME=theme-emulga-box
