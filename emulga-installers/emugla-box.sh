@@ -22,10 +22,12 @@ else
 /bin/cp -rpv Emulga\ Box /recalbox/share/system/.emulationstation/themes/
 fi
 /bin/echo "Do you wish to only use the included splash screen, replacing all others?"
-select yn in "Yes" "No"; do
-    case $yn in
-        Yes ) /bin/echo "Okay replacing all splash files.";/bin/rm -fv /recalbox/system/resources/splash/*; break;;
-        No ) /bin/echo "Okay installing alongside current splash files."; break;;
+while true; do
+read -p "Do you wish to install this program?" yn
+case $yn in
+        [Yy]* ) /bin/echo "Okay replacing all splash files.";/bin/rm -fv /recalbox/system/resources/splash/*; break;;
+        [Nn]* ) /bin/echo "Okay installing alongside current splash files."; break;;
+        * ) echo "Please answer yes or no.";;
     esac
 done
 /bin/echo "Installing Emulga Box splash resources..."
