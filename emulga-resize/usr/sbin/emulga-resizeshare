@@ -1,13 +1,5 @@
 #!/bin/bash
 /usr/bin/clear
-if [ ! -f "/etc/emulga-version" ]; then
-	if [ ! -d "/recalbox/share/system/.emulationstation/themes/Emulga Box" ]; then
-	echo "This script is for Emulga Releases only!"
-	exit 1
-	fi
-	echo "This script is for Emulga Releases only!"
-	exit 1
-else
 # Make sure we run from root of SD and not on share
 BASEDIR=`pwd`
 if [ ! $BASEDIR = "/" ]; then
