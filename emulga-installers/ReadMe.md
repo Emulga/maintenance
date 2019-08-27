@@ -6,14 +6,14 @@ SSH into recalbox and copy / paste one of the following to install.
 
 **Emulga Box Theme**
 
-`wget -O - "https://github.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-box.sh" | bash`
+`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/master/emulga-installers/emugla-box.sh" | bash`
 
 **Emulga Nostalgia Theme**
 
-`wget -O - "https://github.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-nostalgia.sh" | bash`
+`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-nostalgia.sh" | bash`
 
 **Emulga Shaders / Overlays**
 
-`wget -O - "https://github.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-shaders.sh" | bash`
+`wget -O - "https://raw.githubusercontent.com/Emulga/maintenance/raw/master/emulga-theme-installers/emugla-shaders.sh" | bash`
 
 You should see a confirmation of installation when the script completes.
